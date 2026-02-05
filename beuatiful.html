@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes flowerFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .flower {
+            position: absolute;
+            animation: flowerFall 5s linear infinite;
+        }
+
+        .heart-image:hover ~ .flowers .flower {
+            display: block;
+            animation: flowerFall 5s linear infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px #ffafcc, 0 0 30px #ffafcc, 0 0 40px #ffafcc, 0 0 50px #ffafcc;
+            }
+            50% {
+                box-shadow: 0 0 30px #ffafcc, 0 0 40px #ffafcc, 0 0 50px #ffafcc, 0 0 60px #ffafcc;
+            }
+        }
+
+        .glow-on-hover:hover {
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .thank-you-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 20;
+        }
+
+        .thank-you-message h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ff69b4;
+        }
+
+        .thank-you-message p {
+            font-size: 1.25rem;
+            color: #555;
+        }
+
+        .thank-you-message button {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            font-size: 1.25rem;
+            color: #fff;
+            background: linear-gradient(to right, #ff69b4, #ff7e5f);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .thank-you-message button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+
+    <div class="bg-white p-10 rounded-xl shadow-xl text-center max-w-4xl w-full relative z-10 transform transition-all duration-300 ease-in-out hover:scale-105 glow-on-hover">
+        <h1 class="text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-indigo-400 mb-6">
+            I'm Sorry
+        </h1>
+        <p class="text-lg text-gray-700 font-medium mb-6">
+            I never meant to hurt you. My actions were thoughtless, and for that, I am truly sorry. Every day I reflect on how I can be better for you, because you mean the world to me.
+        </p>
+
+        <!-- Heart-shaped image -->
+        <div class="relative inline-block">
+            <img src="https://up.yimg.com/ib/th?id=OIP.QqlIHgO3iTgj56OEfAu7-QHaHB&pid=Api&rs=1&c=1&qlt=95&w=112&h=106" alt="Heart Image" class="rounded-full w-40 h-40 object-cover cursor-pointer transform transition-all duration-300 hover:scale-110 shadow-xl heart-image">
+            
+            <!-- Flowers Container -->
+            <div class="flowers absolute top-0 left-0 w-full h-full flex flex-wrap justify-center items-center space-x-4 space-y-4 pointer-events-none">
+                <img src="https://via.placeholder.com/50/FF69B4/FFFFFF?text=🌸" alt="Flower" class="flower w-12 h-12" style="display: none;">
+                <img src="https://via.placeholder.com/50/FF69B4/FFFFFF?text=🌷" alt="Flower" class="flower w-12 h-12" style="display: none;">
+                <img src="https://via.placeholder.com/50/FF69B4/FFFFFF?text=🌼" alt="Flower" class="flower w-12 h-12" style="display: none;">
+                <img src="https://via.placeholder.com/50/FF69B4/FFFFFF?text=💐" alt="Flower" class="flower w-12 h-12" style="display: none;">
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <button id="forgive-button" class="text-white bg-gradient-to-r from-pink-500 to-indigo-400 py-3 px-8 rounded-full font-semibold text-xl hover:scale-110 transform transition-all duration-300 ease-in-out glow-on-hover">
+                Please Forgive Me
+            </button>
+        </div>
+    </div>
+
+    <!-- Thank You Message -->
+    <div id="thank-you-message" class="thank-you-message">
+        <h2>Thank You!</h2>
+        <p>Your forgiveness means everything to me. I promise to be better.</p>
+        <button id="close-thank-you">Close</button>
+    </div>
+
+    <!-- Optional: Background flower images that spread when hovered -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <!-- Additional flower images can be added here for a more immersive effect -->
+    </div>
+
+    <script>
+        document.querySelector('.heart-image').addEventListener('mouseover', function() {
+            const flowersContainer = document.querySelector('.flowers');
+            for (let i = 0; i < 20; i++) {
+                const flower = document.createElement('img');
+                flower.src = 'https://via.placeholder.com/50/FF69B4/FFFFFF?text=🌸';
+                flower.classList.add('flower');
+                flower.style.left = Math.random() * 100 + 'vw';
+                flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+                flowersContainer.appendChild(flower);
+
+                flower.addEventListener('animationend', () => {
+                    flowersContainer.removeChild(flower);
+                });
+            }
+        });
+
+        // Show thank you message on button click
+        document.getElementById('forgive-button').addEventListener('click', function() {
+            document.getElementById('thank-you-message').style.display = 'block';
+        });
+
+        // Close thank you message
+        document.getElementById('close-thank-you').addEventListener('click', function() {
+            document.getElementById('thank-you-message').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
